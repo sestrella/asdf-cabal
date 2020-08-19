@@ -10,17 +10,23 @@ import urllib.request
 URL = 'https://downloads.haskell.org/~cabal/'
 
 def install(install_dir, version):
-  filenames = __compatible_filenames(__extract_filenames(__version_index(version)))
-  filename = next(filename for filename in filenames if 'unknown' in filename)
+  filename = next(__compatible_filenames(__extract_filenames(__version_index(version))))
   __install_from_url(install_dir, f'{URL}cabal-install-{version}/{filename}')
 
 def __compatible_filenames(filenames):
-  os = sys.platform
-  arch = platform.machine()
+  ffilter = __filename_filter()
   return filter(
-    lambda filename: os in filename and arch in filename and filename.endswith('tar.xz'),
+    lambda filename: ffilter in filename and filename.endswith('tar.xz'),
     filenames
   )
+
+def __filename_filter():
+  osname = sys.platform
+  arch = platform.machine()
+  if osname == 'linux':
+    return f'{arch}-unknown-{osname}'
+
+  return f'{arch}-apple-{osname}'
 
 def __extract_filenames(html):
   return re.findall('(?<=href=")(cabal-install-.*)(?=")', html)
