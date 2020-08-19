@@ -4,18 +4,28 @@ name: CI
 on: [push]
 
 jobs:
+  asdf-tests:
+    strategy:
+      matrix:
+        runner:
+          - macos-latest
+          - ubuntu-latest
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: asdf-vm/actions/plugin-test@v1.0.0
+        with:
+          command: "cabal --version"
+
   python-test:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        runner:
+          - macos-latest
+          - ubuntu-latest
+    runs-on: ${{ matrix.runner }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
         with:
           python-version: '3.x'
       - run: python -m unittest
-
-  asdf-tests:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: asdf-vm/actions/plugin-test@v1.0.0
-        with:
-          command: "cabal --version"
