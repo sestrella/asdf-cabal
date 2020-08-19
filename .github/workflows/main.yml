@@ -4,7 +4,7 @@ name: CI
 on: [push]
 
 jobs:
-  build:
+  python-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -12,3 +12,10 @@ jobs:
         with:
           python-version: '3.x'
       - run: python -m unittest
+
+  asdf-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: asdf-vm/actions/plugin-test@v1.0.0
+        with:
+          command: "cabal --version"
