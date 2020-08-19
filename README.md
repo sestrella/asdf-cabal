@@ -1,5 +1,7 @@
 # asdf-cabal
 
+![CI](https://github.com/sestrella/asdf-cabal/workflows/CI/badge.svg?branch=master)
+
 Cabal plugin for asdf version manager.
 
 ## Requirements
