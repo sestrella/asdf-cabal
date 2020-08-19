@@ -42,3 +42,8 @@ def __install_from_url(install_dir, url):
       tar.extractall(download_dir)
       os.mkdir(f'{install_dir}/bin')
       shutil.copy(f'{download_dir}/cabal', f'{install_dir}/bin/cabal')
+
+if __name__ == '__main__':
+  install_dir = os.environ['ASDF_INSTALL_PATH']
+  version = os.environ['ASDF_INSTALL_VERSION']
+  install(install_dir, version)
